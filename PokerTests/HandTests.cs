@@ -113,5 +113,41 @@ namespace Poker.Tests
 
             Assert.IsTrue(hand1 == hand2);
         }
+
+        [TestMethod()]
+        public void ThreeOfAKindWinsHighCard()
+        {
+            var winningHand = testDeck.GetThreeOfAKindHand(value: 2);
+            var losingHand = testDeck.GetHighCardHand(highCard: 14);
+
+            Assert.IsTrue(winningHand > losingHand);
+        }
+
+        [TestMethod()]
+        public void ThreeOfAKindWinsPair()
+        {
+            var winningHand = testDeck.GetThreeOfAKindHand(value: 2);
+            var losingHand = testDeck.GetPairHand(pairValue: 14);
+
+            Assert.IsTrue(winningHand > losingHand);
+        }
+
+        [TestMethod()]
+        public void ThreeOfAKindWinsTwoPairs()
+        {
+            var winningHand = testDeck.GetThreeOfAKindHand(value: 2);
+            var losingHand = testDeck.GetTwoPairsHand(pair1Value: 14, pair2Value: 13);
+
+            Assert.IsTrue(winningHand > losingHand);
+        }
+
+        [TestMethod()]
+        public void ThreeOfAKindWinsLowerThreeOfAKind()
+        {
+            var winningHand = testDeck.GetThreeOfAKindHand(value: 10);
+            var losingHand = testDeck.GetThreeOfAKindHand(value: 5);
+
+            Assert.IsTrue(winningHand > losingHand);
+        }
     }
 }

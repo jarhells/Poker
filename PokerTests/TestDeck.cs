@@ -54,6 +54,20 @@ namespace Poker.Tests
             return new Hand(cards);
         }
 
+        public Hand GetThreeOfAKindHand(int value, int? highCard = null)
+        {
+            var cards = new List<Card>(5)
+            {
+                GetCardWithValue(value),
+                GetCardWithValue(value),
+                GetCardWithValue(value)
+            };
+
+            cards.AddRange(GetRandomCards(cards, highCard));
+
+            return new Hand(cards);
+        }
+
         private IEnumerable<Card> GetRandomCards(List<Card> existingCards, int? highCard = null)
         {
             var rnd = new Random();

@@ -25,11 +25,36 @@ namespace Poker
         {
             int result = 0;
 
+            if (CompareThreeOfAKinds(other, out result) != 0) return result;
             if (CompareTwoPairs(other, out result) != 0) return result;
             if (ComparePairs(other, out result) != 0) return result;
 
-
             return CompareHighs(other);
+        }
+
+        private int CompareThreeOfAKinds(Hand other, out int result)
+        {
+            result = 0;
+
+            var thisThreeOfAKind = FindThreeOfAKind(this);
+            var otherThreeOfAKind = FindThreeOfAKind(other);
+
+            if (!thisThreeOfAKind.HasValue && !otherThreeOfAKind.HasValue)
+            {
+                return result = 0;
+            }
+
+            if (thisThreeOfAKind.HasValue && !otherThreeOfAKind.HasValue)
+            {
+                return result = -1;
+            }
+
+            if (!thisThreeOfAKind.HasValue && otherThreeOfAKind.HasValue)
+            {
+                return result = 1;
+            }
+
+            return result = thisThreeOfAKind.Value.CompareTo(otherThreeOfAKind.Value) * -1;
         }
 
         private int CompareTwoPairs(Hand other, out int result)
@@ -110,6 +135,19 @@ namespace Poker
         private int ComparePairs(Hand other, out int result)
         {
             return ComparePairs(this, other, out result);
+        }
+
+        private static int? FindThreeOfAKind(Hand hand)
+        {
+            for (int i = 2; i < hand.cards.Count; i++)
+            {
+                if (hand.cards[i].Value == hand.cards[i - 1].Value && hand.cards[i].Value == hand.cards[i - 2].Value)
+                {
+                    return hand.cards[i].Value;
+                }
+            }
+
+            return null;
         }
 
         private static int? FindPair(Hand hand, int? ignoredPair = null)
