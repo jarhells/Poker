@@ -12,6 +12,11 @@ namespace Poker
 
         public Hand(List<Card> cards)
         {
+            if (cards.Count != 5)
+            {
+                throw new ArgumentException("Hand must have exact 5 cards.");
+            }
+
             this.cards = cards;
             cards.Sort();
         }
